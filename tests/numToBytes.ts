@@ -1,5 +1,9 @@
 import { numToBytes } from '../src/alg/numToBytes'
 
+test('0', () => {
+    expect(numToBytes(0)).toEqual(new Uint8Array([]))
+})
+
 test('1', () => {
     expect(numToBytes(1)).toEqual(new Uint8Array([ 1 ]))
 })
@@ -34,4 +38,8 @@ test('65536', () => {
 
 test('65537', () => {
     expect(numToBytes(65537)).toEqual(new Uint8Array([ 1, 0, 1 ]))
+})
+
+test('-1', () => {
+    expect(numToBytes(-1)).toEqual(new Uint8Array([]))
 })
