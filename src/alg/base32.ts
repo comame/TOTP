@@ -53,10 +53,10 @@ export function decode(message: string): Uint8Array {
 }
 
 export function encode(bytes: Uint8Array): string {
-    const fiveBits = []
+    const words = []
 
     for (let i = 0; i < Math.ceil(bytes.length / 5); i += 1) {
-        fiveBits.push(
+        words.push(
             (bytes[i * 5] & 0b11111000) >> 3,
             ((bytes[i * 5] & 0b00000111) << 2) + ((bytes[i * 5 + 1] & 0b11000000) >> 6),
             i * 5 + 1 < bytes.length ? (bytes[i * 5 + 1] & 0b00111110) >> 1 : 32,
@@ -69,7 +69,7 @@ export function encode(bytes: Uint8Array): string {
     }
 
     let message = ''
-    for (const word of fiveBits) {
+    for (const word of words) {
         message += encodeMap.get(word)
     }
 
