@@ -1,5 +1,5 @@
-import { HashFunc } from '../../types'
+import { HashFunc, HmacFunc } from '../../types'
 
-export function hmacSha1(secret: Uint8Array, message: Uint8Array, hashFunc: HashFunc): Uint8Array {
-    return new Uint8Array()
+export const hmacSha1: HmacFunc = (hashFunc: HashFunc) => (secret: Uint8Array, message: Uint8Array): Uint8Array => {
+    return new Uint8Array
 }
