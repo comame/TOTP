@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "test": "jest",
+        "test": "jest --verbose",
         "build": "webpack",
         "build:prod": "webpack --mode production",
         "clear": "rm -r dist"
