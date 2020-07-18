@@ -1,4 +1,6 @@
-import { decode, encode } from '../src/alg/base32'
+import { base32 } from '../src/alg/encoding/base32'
+
+const { encode, decode } = base32
 
 function testByte(testcases) {
     for (const message of Object.keys(testcases)) {
