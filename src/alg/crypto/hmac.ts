@@ -27,18 +27,14 @@ export const hmac: HmacFunc = (hashFunc: HashFunc, blockLengthByte: number) => (
     const opad = new Uint8Array(blockLengthByte)
     const ipad = new Uint8Array(blockLengthByte)
 
-    let key = new Uint8Array()
-    if (secret.length < blockLengthByte) {
-        const padding: number[] = []
-        padding.length = blockLengthByte - secret.length
-        key = new Uint8Array([ ...Array.from(secret), ...padding.fill(0x00) ])
-    } else if (secret.length > blockLengthByte) {
+    let key = Uint8Array.from(secret)
+    if (secret.length > blockLengthByte) {
         key = hashFunc(secret)
+    }
+    if (key.length < blockLengthByte) {
         const padding: number[] = []
         padding.length = blockLengthByte - key.length
         key = new Uint8Array([ ...Array.from(key), ...padding.fill(0x00) ])
-    } else {
-        key = secret
     }
 
     for (let i = 0; i < blockLengthByte; i += 1) {
