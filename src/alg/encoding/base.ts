@@ -27,6 +27,8 @@ export const baseEncoding: BaseEncodingFunc = (wordSize: number, lengthUnit: num
     },
 
     decode: (message: string): Uint8Array => {
+        if (message.length % lengthUnit != 0) throw 'invalid_message'
+
         const bits = []
         for (const char of message) {
             const word = decodeMap.get(char)

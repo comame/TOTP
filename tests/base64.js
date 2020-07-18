@@ -22,6 +22,12 @@ const testcases = [
     ['easure.', 'ZWFzdXJlLg=='],
     ['asure.', 'YXN1cmUu'],
     ['sure.', 'c3VyZS4='],
+    ['Twas brillig, and the slithy toves', 'VHdhcyBicmlsbGlnLCBhbmQgdGhlIHNsaXRoeSB0b3Zlcw==']
+]
+
+const invalidMessageTestcases = [
+    'YWJjZA=====',
+    '!'
 ]
 
 for (const testcase of testcases) {
@@ -30,5 +36,11 @@ for (const testcase of testcases) {
     })
     test(`Decode ${testcase[1]}`, () => {
         expect(decode(testcase[1])).toEqual(strToByte(testcase[0]))
+    })
+}
+
+for (const testcase of invalidMessageTestcases) {
+    test(`Decode invalid ${testcase}`, () => {
+        expect(() => decode(testcase)).toThrow('invalid_message')
     })
 }
