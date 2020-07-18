@@ -4,7 +4,7 @@ import { HashFunc } from '../../types'
 function padding(message: Uint8Array): Uint8Array {
     let padded = new Uint8Array([ ...Array.from(message), 0x80 ])
 
-    const zeroPadding: number[] = new Array(Math.ceil(padded.length / 616) * 64 - padded.length - 8).fill(0x00)
+    const zeroPadding: number[] = new Array(Math.ceil(padded.length / 64) * 64 - padded.length - 8).fill(0x00)
     padded = new Uint8Array([ ...Array.from(padded), ...zeroPadding ])
 
     let originalMessageSize = decode(message.length * 8)
