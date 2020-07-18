@@ -1,17 +1,17 @@
 import { hmac } from '../src/alg/crypto/hmac'
 import crypto from 'crypto'
 
-const hashFunc = (message) => {
-    const hash = crypto.createHash('sha1')
-    hash.update(message)
-    return new Uint8Array(hash.digest())
-}
-
-const hmacFunc = hmac(hashFunc, 64)
-
 function strToByte(str) { return new Uint8Array(str.split('').map(it => it.charCodeAt(0))) }
 
 function testHmacUsingMockHash(testcase) {
+    const hashFunc = (message) => {
+        const hash = crypto.createHash('sha1')
+        hash.update(message)
+        return new Uint8Array(hash.digest())
+    }
+
+    const hmacFunc = hmac(hashFunc, 64)
+
     const answer = new Uint8Array(crypto
         .createHmac('sha1', testcase.secret)
         .update(testcase.message)
