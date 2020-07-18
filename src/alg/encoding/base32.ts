@@ -16,7 +16,4 @@ for (let i = 26; i <= 31; i += 1) {
     decodeMap.set(char, i)
 }
 
-encodeMap.set(32, '=')
-decodeMap.set('=', 32)
-
-export const base32: BaseEncoding = baseEncoding(5, encodeMap, decodeMap)
+export const base32: BaseEncoding = baseEncoding(5, 8, encodeMap, decodeMap)
