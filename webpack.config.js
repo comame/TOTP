@@ -10,8 +10,11 @@ module.exports = {
     },
     module: {
         rules: [{
-            test: /\.(tsx|ts)$/,
+            test: /\.(ts)$/,
             use: 'ts-loader'
         }]
+    },
+    resolve: {
+        extensions: [ '.ts' ]
     }
 }
