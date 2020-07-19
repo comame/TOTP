@@ -1,15 +1,7 @@
-import { HashFunc, HmacFunc } from '../../types'
+import { HashFunc, Hmac } from '../../types'
 
 function concat(a: Uint8Array, b: Uint8Array): Uint8Array {
-    const bytes = []
-    bytes.length = a.length + b.length
-    for (let i = 0; i < a.length; i += 1) {
-        bytes[i] = a[i]
-    }
-    for (let i = 0; i < b.length; i += 1) {
-        bytes[a.length + i] = b[i]
-    }
-    return new Uint8Array(bytes)
+    return new Uint8Array([ ...Array.from(a), ...Array.from(b) ])
 }
 
 function xor(a: Uint8Array, b: Uint8Array): Uint8Array {
@@ -23,7 +15,7 @@ function xor(a: Uint8Array, b: Uint8Array): Uint8Array {
     return new Uint8Array(bytes)
 }
 
-export const hmac: HmacFunc = (hashFunc: HashFunc, blockLengthByte: number) => (secret: Uint8Array, message: Uint8Array): Uint8Array => {
+export const hmac: Hmac = (hashFunc: HashFunc, blockLengthByte: number) => (secret: Uint8Array, message: Uint8Array): Uint8Array => {
     const opad = new Uint8Array(blockLengthByte)
     const ipad = new Uint8Array(blockLengthByte)
 

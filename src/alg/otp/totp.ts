@@ -1,9 +1,9 @@
-import { HashFunc, HmacFunc } from '../../types'
+import { HmacFunc } from '../../types'
 import { hotp } from './hotp'
 import { decode } from '../number'
 
-export function totp(k: Uint8Array, step: number = 30, hmacFunc: HmacFunc): number {
+export function totp(k: Uint8Array, hmacFunc: HmacFunc): number {
     const unixTime = Date.now()
-    const t = decode(Math.floor(unixTime / step))
+    const t = decode(Math.trunc(unixTime / 30 / 1000))
     return hotp(k, t, hmacFunc)
 }
