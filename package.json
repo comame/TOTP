@@ -1,5 +1,6 @@
 {
     "name": "totp",
+    "version": "1.0.0",
     "main": "dist/app.js",
     "scripts": {
         "test": "jest --verbose",
