@@ -20,6 +20,6 @@ const secret = decodeHex('3132333435363738393031323334353637383930')
 
 for (let i = 0; i < testcases.length; i += 1) {
     test(i + '', () => {
-        expect(hotp(secret, new Uint8Array([i]), hmac(sha1, 64))).toBe(testcases[i])
+        expect(hotp(secret, new Uint8Array([i]), 6, hmac(sha1, 64))).toBe(testcases[i])
     })
 }

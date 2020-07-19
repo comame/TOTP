@@ -8,7 +8,7 @@ function dt(hs: Uint8Array): Uint8Array {
     return p
 }
 
-export function hotp(k: Uint8Array, c: Uint8Array, hmacFunc: HmacFunc): number {
+export function hotp(k: Uint8Array, c: Uint8Array, digits: number, hmacFunc: HmacFunc): number {
     c = new Uint8Array([
         ...new Array(c.length < 8 ? 8 - c.length : 0).fill(0),
         ...Array.from(c)
@@ -17,7 +17,7 @@ export function hotp(k: Uint8Array, c: Uint8Array, hmacFunc: HmacFunc): number {
     const hs = hmacFunc(k, c)
     const sbits = dt(hs)
     const snum = encode(sbits)
-    const d = snum % (10 ** 6)
+    const d = snum % (10 ** digits)
 
     return d
 }
