@@ -1,5 +1,6 @@
 import { hmac } from '../src/alg/crypto/hmac'
 import crypto from 'crypto'
+import { sha1 } from '../src/alg/crypto/sha-1'
 
 function strToByte(str) { return new Uint8Array(str.split('').map(it => it.charCodeAt(0))) }
 
@@ -9,6 +10,22 @@ function testHmacUsingMockHash(testcase) {
         hash.update(message)
         return new Uint8Array(hash.digest())
     }
+
+    const hmacFunc = hmac(hashFunc, 64)
+
+    const answer = new Uint8Array(crypto
+        .createHmac('sha1', testcase.secret)
+        .update(testcase.message)
+        .digest()
+    )
+
+    test('', () => {
+        expect(hmacFunc(testcase.secret, testcase.message)).toEqual(answer)
+    })
+}
+
+function testHmac(testcase) {
+    const hashFunc = sha1
 
     const hmacFunc = hmac(hashFunc, 64)
 
@@ -308,5 +325,11 @@ const golangTestcases = [{
 describe('Tests from golang.org with mock SHA-1', () => {
     for (const test of golangTestcases) {
         testHmacUsingMockHash(test)
+    }
+})
+
+describe('Tests from golang.org with SHA-1', () => {
+    for (const test of golangTestcases) {
+        testHmac(test)
     }
 })
