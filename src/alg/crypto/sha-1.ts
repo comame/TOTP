@@ -21,10 +21,41 @@ function padding(message: Uint8Array): Uint8Array {
 }
 
 function circularShift(n: number, bytes: number): number {
-    let bBytes = BigInt.asUintN(32, BigInt(bytes))
-    const bN = BigInt(n)
-    bBytes = (((bBytes << bN)) | (bBytes >> (BigInt(32) - bN))) & BigInt(0xFFFFFFFF)
-    return Number(bBytes)
+    // Casting to unsigned integer
+    bytes = bytes >>> 0
+
+    const b1 = Math.trunc(bytes / 0x01000000)
+    const b2 = Math.trunc(bytes / 0x00010000) & 0xFF
+    const b3 = Math.trunc(bytes / 0x00000100) & 0xFF
+    const b4 = Math.trunc(bytes / 0x00000001) & 0xFF
+
+    if (n <= 8) return (
+        (((b1 << n) | (b2 >> (8 - n))) & 0xFF) * 0x01000000 +
+        (((b2 << n) | (b3 >> (8 - n))) & 0xFF) * 0x00010000 +
+        (((b3 << n) | (b4 >> (8 - n))) & 0xFF) * 0x00000100 +
+        (((b4 << n) | (b1 >> (8 - n))) & 0xFF) * 0x00000001
+    )
+    n -= 8
+    if (n <= 8) return (
+        (((b2 << n) | (b3 >> (8 - n))) & 0xFF) * 0x01000000 +
+        (((b3 << n) | (b4 >> (8 - n))) & 0xFF) * 0x00010000 +
+        (((b4 << n) | (b1 >> (8 - n))) & 0xFF) * 0x00000100 +
+        (((b1 << n) | (b2 >> (8 - n))) & 0xFF) * 0x00000001
+    )
+    n -= 8
+    if (n <= 8) return (
+        (((b3 << n) | (b4 >> (8 - n))) & 0xFF) * 0x01000000 +
+        (((b4 << n) | (b1 >> (8 - n))) & 0xFF) * 0x00010000 +
+        (((b1 << n) | (b2 >> (8 - n))) & 0xFF) * 0x00000100 +
+        (((b2 << n) | (b3 >> (8 - n))) & 0xFF) * 0x00000001
+    )
+    n -= 8
+    return (
+        (((b4 << n) | (b1 >> (8 - n))) & 0xFF) * 0x01000000 +
+        (((b1 << n) | (b2 >> (8 - n))) & 0xFF) * 0x00010000 +
+        (((b2 << n) | (b3 >> (8 - n))) & 0xFF) * 0x00000100 +
+        (((b3 << n) | (b4 >> (8 - n))) & 0xFF) * 0x00000001
+    )
 }
 
 function f(t: number, b: number, c: number, d: number): number {
