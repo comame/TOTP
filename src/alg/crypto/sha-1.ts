@@ -24,10 +24,11 @@ function circularShift(n: number, bytes: number): number {
     // Casting to unsigned integer
     bytes = bytes >>> 0
 
-    const b1 = Math.trunc(bytes / 0x01000000)
-    const b2 = Math.trunc(bytes / 0x00010000) & 0xFF
-    const b3 = Math.trunc(bytes / 0x00000100) & 0xFF
-    const b4 = Math.trunc(bytes / 0x00000001) & 0xFF
+    // Rounding down using >>>
+    const b1 = ((bytes / 0x01000000) >>> 0)
+    const b2 = ((bytes / 0x00010000) >>> 0) & 0xFF
+    const b3 = ((bytes / 0x00000100) >>> 0) & 0xFF
+    const b4 = ((bytes / 0x00000001) >>> 0) & 0xFF
 
     if (n <= 8) return (
         (((b1 << n) | (b2 >> (8 - n))) & 0xFF) * 0x01000000 +
