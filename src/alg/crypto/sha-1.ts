@@ -21,20 +21,10 @@ function padding(message: Uint8Array): Uint8Array {
 }
 
 function circularShift(n: number, bytes: number): number {
-    let bits: boolean[] = new Array(32)
-    for (let i = 0; i < 32; i += 1) {
-        bits[i] = (bytes & (2 ** i)) != 0
-    }
-    bits = bits.reverse()
-
-    const newBits = [ ...bits.slice(n), ...bits.slice(0, n) ]
-
-    let sum = 0
-    for (let i = 0; i < 32; i += 1) {
-        if (newBits[31 - i]) sum += 2 ** i
-    }
-
-    return sum
+    let bBytes = BigInt.asUintN(32, BigInt(bytes))
+    const bN = BigInt(n)
+    bBytes = (((bBytes << bN)) | (bBytes >> (BigInt(32) - bN))) & BigInt(0xFFFFFFFF)
+    return Number(bBytes)
 }
 
 function f(t: number, b: number, c: number, d: number): number {
